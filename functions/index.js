@@ -13,8 +13,19 @@ const twitterClient = new TwitterApi({
 
 const callbackUrl = 'http://localhost:5000/gpt3-twitter-bot/us-central1/callback'
 
-exports.auth = functions.https.onRequest((req, res) => {})
+// auth url
+exports.auth = functions.https.onRequest((req, res) => {
+    const { url, codeVerifier, state } = twitterClient.generateOAuth2AuthLink(
+        callbackURL,
+        { scope: ['tweet.read', 'tweet.write', 'users.read', 'offline.access'] }
+      );
+      // store verifier
+      await dbRef.set({ codeVerifier, state });
+    
+      response.redirect(url);
+})
 
 exports.callback = functions.https.onRequest((req, res) => {})
 
 exports.tweet = functions.https.onRequest((req, res) => {})
+ 
