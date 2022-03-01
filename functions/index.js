@@ -63,6 +63,8 @@ exports.callback = functions.https.onRequest((req, res) => {
   res.send(data)
 })
 
+
+//post tweets
 exports.tweet = functions.https.onRequest((req, res) => {
     const { refreshToken } = (await dbRef.get()).data()
 
